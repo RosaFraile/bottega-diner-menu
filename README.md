@@ -2,12 +2,10 @@
 
 ### Build out a Diner Menu in JavaScript
 
-> The customer can choose have: breakfast/lunch/diner.
-> Breakfast Menu has different items.
-> Lunch and Diner Menus have the same items but different prices (at lunch, items cost 1 euro less than at diner).
+> The workflow of the app is the following:
 
-1. The waiter greets the customers. He tells them that thay can chose one item from the Main Menu and two items from the Sides Menu (the second item from the Sides Menu is optional).
-2. The waiter asks the customers what are they going to have: breakfast, lunch or diner. Depending on their selection, we will show them different items on the Main Menu and the Sides Menu.
+1. The waiter greets the customers. He tells them that thay can choose one item from the Main Menu and two items from the Sides Menu (the second item from the Sides Menu is optional).
+2. The waiter asks the customers what are they going to have: breakfast, lunch or diner. Depending on their selection, we will show them different items on the Main Menu and the Sides Menu. Breakfast Menu has different items. Lunch and Diner Menus have the same items but different prices (at lunch, items cost 1 euro less than at diner).
 3. We show the customer the Main Menu.
 4. The customers choose an item.
 5. We check that the item is on the menu. If it is not, we go back to step 3.
