@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+
+<script>
+    const commentsVault = [
+        "Great choice. I'll bring your order right away.",
+        "Let me know if you have any questions during your meal, I'm here to help.",
+        "That sounds good.",
+        "Enjoy your meal."
+    ]
+    const breakfastMainMenu = {
+        'pancake': 5,
+        'omelette': 7,
+        'french toast': 4,
+        'croissant': 3,
+        'lemon cake': 6
+    }
+
+    const breakfastSidesMenu = {
+        'latte': 1,
+        'capuccino': 3,
+        'black coffee': 2,
+        'orange juice': 4,
+        'milkshake': 6
+    }
+
+    const dinerMainMenu = {
+        'hamburguer': 10,
+        'steak': 20,
+        'chicken': 12,
+        'tuna': 13,
+        'salmon': 18
+    }
+
+    const dinerSidesMenu = {
+        'fries': 5,
+        'brown rice': 3,
+        'salad': 7,
+        'baked potatoes': 4,
+        'broccoli': 6
+    } 
+
+    let mealChoice;
+    let strMainMenu;
+    let strSidesMenu;
+    let dailyMainMenu;
+    let dailySidesMenu;
+    let item;
+    let userCart = [];
+    let userTotal = 0;
+    let orderSidesChoice;
+
+    function bottegaGreeting() {
+        alert('Welcome to Bottega Diner');
+        alert('You can choose one item from the Main Menu and two items from the Sides Menu');
+        let meal;
+        do {
+            meal = prompt('What are you going to have: breakfast/lunch/diner?');
+            meal = meal.toLowerCase();
+        } while(meal !== 'breakfast' && meal !== 'lunch' && meal !== 'diner')
+
+        return meal;
+    }
+
+    function getStringMenu(menu, string) {
+        let str = ''.concat(string);
+        for (let key in menu) {
+            str = str.concat(`${key}: ${menu[key]}\n`);
+        }
+        return str;
+    }
+
+    function getRandomTalk() {
+        let randomNum = Math.floor(Math.random()*(commentsVault.length - 1));
+
+        return commentsVault[randomNum];
+    }
+
+    function getWaiterComment(cart) {
+        if (cart.includes('steak') && cart.includes('fries')) {
+            return 'Those items are my favourites';
+        } else if (cart.includes('salmon') && cart.includes('fries')) {
+            return 'Thats the special of the house';
+        } else if(cart.includes('latte') && cart.includes('lemon cake')) {
+            return 'Thats definitely one of our best combinations for breakfast.';
+        } else if (cart.includes('tuna') && cart.includes('salad')) {
+            return 'Thats a healthy combination and it helps to keep fit';
+        } else if (cart.includes('tuna') && cart.includes('salad')) {
+            return 'Thats a balanced combination of proteins and fiber';
+        }
+        return getRandomTalk();
+    }
+
+    function takeOrder(strMenu, dailyMenu, itemsCart) {
+        let itemOrdered;
+
+        let itemOnMenu = (menu, choice) => {
+            for(let chosenItem in menu) {
+                if (chosenItem === choice.toLowerCase()) {
+                    return chosenItem;
+                }
+            }
+            return -1;
+        } 
+
+        do {
+            let orderChoice = prompt(strMenu.concat('\nEnter your choice\n'));
+            itemOrdered = itemOnMenu(dailyMenu, orderChoice);
+            if(itemOrdered === -1) {
+                alert('That item is not in the menu');
+            }
+        } while(itemOrdered === -1);
+        
+        itemsCart.push(itemOrdered);
+        
+        return dailyMenu[itemOrdered];
+    }
+
+    mealChoice = bottegaGreeting();
+
+    if (mealChoice === 'breakfast') {
+        dailyMainMenu = Object.assign({}, breakfastMainMenu);
+        dailySidesMenu = Object.assign({}, breakfastSidesMenu);
+    } else {
+        dailyMainMenu = Object.assign({}, dinerMainMenu);
+        dailySidesMenu = Object.assign({}, dinerSidesMenu);
+            
+        if(mealChoice === 'lunch') {
+            for (let key in dailyMainMenu) {
+                dailyMainMenu[key] -= 1;
+            }
+            for (let key in dailySidesMenu) {
+                dailySidesMenu[key] -= 1;
+            }
+        }
+    }
+
+    strMainMenu = getStringMenu(dailyMainMenu, `${mealChoice.toUpperCase()} MAIN MENU\n\n`);
+    strSidesMenu = getStringMenu(dailySidesMenu, `${mealChoice.toUpperCase()} SIDES MENU\n\n`);
+
+    userTotal += takeOrder(strMainMenu, dailyMainMenu, userCart);
+
+    userTotal += takeOrder(strSidesMenu, dailySidesMenu, userCart);
+
+    let userAnswer = prompt(`${getWaiterComment(userCart)}\nThe total is ${userTotal} €\nCan I get you another item from the Sides Menu (yes/no)?`);
+
+    if (userAnswer.toLowerCase() === 'yes') {
+        userTotal += takeOrder(strSidesMenu, dailySidesMenu, userCart);
+    }
+
+    let comment = getRandomTalk();
+    alert(comment.concat(`\nThe total is ${userTotal} €.`))
+</script>
+</html>
